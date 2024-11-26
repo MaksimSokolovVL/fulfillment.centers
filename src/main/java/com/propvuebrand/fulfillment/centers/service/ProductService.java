@@ -44,6 +44,7 @@ public class ProductService {
                 .map(productMapper::toDto)
                 .toList();
 
+        System.out.println(System.getProperty("file.encoding"));
         log.info("Получено {} продуктов", products.size());
         return ResponseEntity.ok(products);
     }
