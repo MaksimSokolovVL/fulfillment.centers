@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: ffc
+  liquibase:
+    enabled: false
+  datasource:
+    username: test
+    password: test
+    url: jdbc:postgresql://localhost:5432/testdb
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    org.hibernate.type.descriptor.sql: trace # Включает подробное логирование SQL параметров
+
+server:
+  port: 8081
+  servlet:
+    context-path: /v1

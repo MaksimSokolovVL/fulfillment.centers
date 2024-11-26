@@ -1,0 +1,8 @@
+{
+  "id": null,
+  "product": "p1",
+  "status": "SELLABLE",
+  "fulfillmentCenter": "fc1",
+  "qty": 10,
+  "value": 100
+}

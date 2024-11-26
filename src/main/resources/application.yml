@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: fulfillment.centers
+
+  jpa:
+    database: postgresql
+    show-sql: true # Включаем вывод SQL запросов
+#    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: ${DB_SCHEMA}
+
+  datasource:
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    driver-class-name: org.postgresql.Driver
+#LiquibaseConfig
+  liquibase:
+    change-log: db/changelog/db.changelog-dictionary.xml
+    enabled: true
+    default-schema: ${DB_SCHEMA}
+
+logging:
+  level:
+#    root: INFO
+#    liquibase: DEBUG
+    org.hibernate.type.descriptor.sql: trace # Включаем логирование фактических значений параметров
+
+server:
+  port: 8081
+  servlet:
+    context-path: /v1
+

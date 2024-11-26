@@ -1,0 +1,26 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                    http://www.liquibase.org/xml/ns/pro
+                    http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd
+                    http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+    <changeSet id="2" author="Maxim">
+        <loadData schemaName="ffc" tableName="t_products" file="csv/Products.csv" relativeToChangelogFile="true" separator=";">
+            <column name="id" type="numeric" defaultValueNumeric="0"/>
+            <column name="product" type="STRING"/>
+            <column name="status" type="STRING"/>
+            <column name="fulfillment_center" type="STRING"/>
+            <column name="qty" type="numeric"/>
+            <column name="value" type="numeric"/>
+
+        </loadData>
+
+        <rollback>
+            <delete tableName="individual"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

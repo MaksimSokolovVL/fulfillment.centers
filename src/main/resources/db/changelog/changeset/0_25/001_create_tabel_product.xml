@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                    http://www.liquibase.org/xml/ns/pro
+                    http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd
+                    http://www.liquibase.org/xml/ns/dbchangelog
+                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+    <changeSet id="1" author="Maxim">
+        <createSequence schemaName="ffc" sequenceName="t_products_seq" startValue="30" incrementBy="1"/>
+
+        <createTable schemaName="ffc" tableName="t_products" remarks="Фулл филмент центр">
+
+            <column name="id" type="bigserial" autoIncrement="false" remarks="ID">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="product" type="VARCHAR(5)">
+                <constraints nullable="false" uniqueConstraintName="Идентификатор продукта"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false" uniqueConstraintName="Состояние продукта"/>
+            </column>
+            <column name="fulfillment_center" type="VARCHAR(30)">
+                <constraints nullable="false" uniqueConstraintName="Центр выполнения, в котором находится продукт"/>
+            </column>
+            <column name="qty" type="INT">
+                <constraints nullable="false" uniqueConstraintName="Количество единиц"/>
+            </column>
+            <column name="value" type="DECIMAL(19, 4)">
+                <constraints nullable="false" uniqueConstraintName="Стоимость"/>
+            </column>
+
+        </createTable>
+        <rollback>
+            <dropTable tableName="t_products" schemaName="ffc"/>
+            <dropSequence schemaName="ffc" sequenceName="t_products_seq"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
