@@ -2,6 +2,8 @@ package com.propvuebrand.fulfillment.centers;
 
 import com.propvuebrand.fulfillment.centers.domain.ProductStatus;
 import com.propvuebrand.fulfillment.centers.domain.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,5 +41,7 @@ public class Helper {
 
         return List.of(ffc1, ffc2);
     };
+
+    public static Supplier<Page<Product>> PAGE_PRODUCT = () -> new PageImpl<>(LIST_PRODUCT.get());
 
 }

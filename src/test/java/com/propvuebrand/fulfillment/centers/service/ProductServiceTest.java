@@ -8,10 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-
-import static com.propvuebrand.fulfillment.centers.Helper.LIST_PRODUCT;
+import static com.propvuebrand.fulfillment.centers.Helper.PAGE_PRODUCT;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
@@ -26,10 +26,17 @@ class ProductServiceTest {
 
     @Test
     void getAllProducts() {
-        when(productRepo.findAll()).thenReturn(LIST_PRODUCT.get());
-        Page<ProductDto> expectedProducts = service.getAllProducts(0, 10).getBody();
-        Page<ProductDto> productDtos = LIST_PRODUCT.get().stream().map(productMapper::toDto).toList();
-        assertEquals("ok", expectedProducts, productDtos);
+        PageRequest pagination = PageRequest.of(0, 10);
+
+        when(productRepo.findAll(pagination)).thenReturn(PAGE_PRODUCT.get());
+        Page<ProductDto> actualProducts = service.getAllProducts(0, 10).getBody();
+        Page<ProductDto> extendsProduct = PAGE_PRODUCT.get().map(productMapper::toDto);
+        assertEquals("ok", extendsProduct, actualProducts);
     }
+
+    /**
+     * Тесты тоже некоторые сложно читать, перепутаны expected с actual.
+     * Например ProductServiceTest - в переменную expectedProducts на самом деле записываются продукты из вызова проверяемого сервиса.
+     * */
 
 }
