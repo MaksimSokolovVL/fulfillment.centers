@@ -7,6 +7,8 @@ import com.propvuebrand.fulfillment.centers.mapper.ProductMapper;
 import com.propvuebrand.fulfillment.centers.repository.ProductRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,14 +40,13 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        var products = productRepo.findAll()
-                .stream()
-                .map(productMapper::toDto)
-                .toList();
+    public ResponseEntity<Page<ProductDto>> getAllProducts(int page, int size) {
+        Page<ProductDto> products = productRepo
+                .findAll(PageRequest.of(page, size))
+                .map(productMapper::toDto);
 
-        System.out.println(System.getProperty("file.encoding"));
-        log.info("Получено {} продуктов", products.size());
+        System.out.println(System.getProperty("file.encoding")); // todo что для чего?
+        log.info("Получено {} продуктов", products.stream().count());
         return ResponseEntity.ok(products);
     }
 
@@ -99,7 +100,7 @@ public class ProductService {
     }
 
     /**
-     * Фильтрация продуктов по статусу
+     * Фильтрация продуктов по статусу - фильтры не гибкие, если захотим добавить новый фильтр нужно будет много переписывать
      */
     @Transactional(readOnly = true)
     public ResponseEntity<List<ProductDto>> getProductsByStatus(ProductStatus status) {

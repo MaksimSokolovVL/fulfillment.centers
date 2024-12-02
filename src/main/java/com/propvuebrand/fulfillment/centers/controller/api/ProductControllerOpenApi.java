@@ -9,8 +9,11 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -18,10 +21,12 @@ import java.util.List;
 public interface ProductControllerOpenApi {
     @Operation(
             summary = "Получение продукта по ID",
-            description = "..." +
-                    "Параметры запроса: " +
-                    "@param id - id продукта. " +
-                    "@return ProductDto в формате JSON.",
+            description = """
+                    ...
+                    Параметры запроса:
+                    @param id - id продукта.
+                    @return ProductDto в формате JSON.
+                    """,
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ с ProductDto",
@@ -44,22 +49,27 @@ public interface ProductControllerOpenApi {
 
     @Operation(
             summary = "Получение списка всех продуктов",
-            description = "..." +
-                    "Параметры запроса: " +
-                    "@return List<ProductDto> в формате JSON.",
+            description = """
+                    Возвращает страницу с продуктами в формате JSON.
+                    Параметры запроса:
+                    page - номер страницы (по умолчанию 0),
+                    size - количество элементов на странице (по умолчанию 10).
+                    @return Page<ProductDto> в формате JSON.
+                    """,
             responses = {
                     @ApiResponse(
-                            description = "Успешный ответ со списком ProductDto",
+                            description = "Успешный ответ с страницей ProductDto",
                             responseCode = "200",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(type = "array", implementation = ProductDto.class)
+                                    schema = @Schema(type = "object", implementation = Page.class)
                             )
                     )
             }
     )
     @GetMapping
-    ResponseEntity<List<ProductDto>> getAllProducts();
+    ResponseEntity<Page<ProductDto>> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size);
 
     @Operation(
             summary = "Добавление нового продукта",
@@ -199,10 +209,12 @@ public interface ProductControllerOpenApi {
 
     @Operation(
             summary = "Сумма значений по статуту",
-            description = "..." +
-                    "Параметры запроса: " +
-                    "@param ffc - ProductStatus. " +
-                    "@return String в формате JSON.",
+            description = """
+                    ...
+                    Параметры запроса:
+                    @param ffc - ProductStatus.
+                    @return String в формате JSON.
+                    """,
             responses = {
                     @ApiResponse(
                             description = "Успешный ответ с суммой",

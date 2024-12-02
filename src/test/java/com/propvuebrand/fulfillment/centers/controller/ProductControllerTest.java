@@ -31,7 +31,7 @@ class ProductControllerTest extends BaseIntegrationTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         ProductDto dto = response.getBody();
-        System.out.println("######## " + dto);
+        System.out.println("######## " + dto); // todo
     }
 
     @Test

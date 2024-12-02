@@ -6,6 +6,7 @@ import com.propvuebrand.fulfillment.centers.domain.dto.ProductDto;
 import com.propvuebrand.fulfillment.centers.exception.ProductException;
 import com.propvuebrand.fulfillment.centers.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,11 @@ public class ProductController implements ProductControllerOpenApi {
     }
 
     @Override
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        return service.getAllProducts();
+    public ResponseEntity<Page<ProductDto>> getAllProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return service.getAllProducts(page, size);
     }
 
     @Override
@@ -45,8 +49,7 @@ public class ProductController implements ProductControllerOpenApi {
 
     @Override
     @GetMapping("/filter")
-    public ResponseEntity<List<ProductDto>> getFilterProductsByStatus(
-            @RequestParam("status") ProductStatus status) {
+    public ResponseEntity<List<ProductDto>> getFilterProductsByStatus(@RequestParam("status") ProductStatus status) {
         return service.getProductsByStatus(status);
     }
 

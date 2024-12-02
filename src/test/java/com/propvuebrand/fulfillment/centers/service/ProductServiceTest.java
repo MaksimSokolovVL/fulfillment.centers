@@ -7,10 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 
 import static com.propvuebrand.fulfillment.centers.Helper.LIST_PRODUCT;
 import static org.mockito.Mockito.when;
@@ -28,8 +27,8 @@ class ProductServiceTest {
     @Test
     void getAllProducts() {
         when(productRepo.findAll()).thenReturn(LIST_PRODUCT.get());
-        List<ProductDto> expectedProducts = service.getAllProducts().getBody();
-        List<ProductDto> productDtos = LIST_PRODUCT.get().stream().map(productMapper::toDto).toList();
+        Page<ProductDto> expectedProducts = service.getAllProducts(0, 10).getBody();
+        Page<ProductDto> productDtos = LIST_PRODUCT.get().stream().map(productMapper::toDto).toList();
         assertEquals("ok", expectedProducts, productDtos);
     }
 
